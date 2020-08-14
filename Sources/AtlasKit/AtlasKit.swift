@@ -115,7 +115,7 @@ public class AtlasKit {
                                         encoding: URLEncoding.methodDependent,
                                         headers: nil)
         
-        request.validate(statusCode: HTTPStatusCode.ok.rawValue..<HTTPStatusCode.multipleChoices.rawValue).responseJSON { [weak self] (response) in
+        request.validate(statusCode: 200..<300).responseJSON { [weak self] (response) in
             switch response.result {
                 case .failure(_):
                     completion(nil, .generic)
