@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "AtlasKit"
-  spec.version      = "0.1.2"
+  spec.version      = "0.1.3"
   spec.license      = "MIT"
   spec.summary      = "A swift library for quickly integrating a location search in your app."
   spec.homepage     = "https://github.com/appoly/AtlasKit"

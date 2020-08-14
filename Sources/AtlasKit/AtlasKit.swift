@@ -28,7 +28,7 @@ public class AtlasKit {
     
     // MARK: - Initializers
     
-    init(_ datasource: AtlasKitDataSource) {
+    public init(_ datasource: AtlasKitDataSource) {
         self.datasource = datasource
     }
     
