@@ -32,7 +32,7 @@ public class AtlasKitPlace {
     
     // MARK: - Initializer
     
-    init(streetAddress: String? = nil, city: String? = nil, postcode: String? = nil, state: String? = nil, country: String? = nil, location: CLLocationCoordinate2D? = nil) {
+    public init(streetAddress: String? = nil, city: String? = nil, postcode: String? = nil, state: String? = nil, country: String? = nil, location: CLLocationCoordinate2D? = nil) {
         self.streetAddress = streetAddress
         self.city = city
         self.postcode = postcode
