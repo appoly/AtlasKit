@@ -15,6 +15,7 @@ import Foundation
 public enum AtlasKitDataSource {
     case google(key: String)
     case apple
+    case getAddress(key: String)
 }
 
 
@@ -22,6 +23,8 @@ extension AtlasKitDataSource {
     public var apiKey: String? {
         switch self {
             case .google(let key):
+                return key
+            case .getAddress(let key):
                 return key
             case .apple:
                 return nil

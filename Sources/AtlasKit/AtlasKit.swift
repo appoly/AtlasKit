@@ -63,6 +63,8 @@ public class AtlasKit {
                 performMapKitSearch(term, completion: completion)
             case .google:
                 performGooglePlacesSearch(term, completion: completion)
+            case .getAddress:
+                performGetAddressSearch(term, completion: completion)
         }
     }
     
@@ -111,9 +113,9 @@ public class AtlasKit {
         
         let request = sessionManager.request(URL(string: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json")!,
                                              method:  .get,
-                                        parameters: parameters,
-                                        encoding: URLEncoding.methodDependent,
-                                        headers: nil)
+                                             parameters: parameters,
+                                             encoding: URLEncoding.methodDependent,
+                                             headers: nil)
         
         request.validate(statusCode: 200..<300).responseJSON { [weak self] (response) in
             switch response.result {
@@ -136,11 +138,69 @@ public class AtlasKit {
     }
     
     
+    private func performGetAddressSearch(_ postcode: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
+        let parameters = [
+            "api-key": datasource.apiKey!
+        ]
+        
+        let request = sessionManager.request(URL(string: "https://api.getaddress.io/find/\(postcode)")!,
+                                             method:  .get,
+                                             parameters: parameters,
+                                             encoding: URLEncoding.methodDependent,
+                                             headers: nil)
+        
+        request.validate(statusCode: 200..<300).responseJSON { [weak self] (response) in
+            switch response.result {
+                case .failure(_):
+                    completion(nil, .generic)
+                case .success(let value):
+                    guard let json = value as? [String: Any] else {
+                        completion(nil, .generic)
+                        return
+                    }
+                    
+                    guard let data = json["addresses"] as? [String] else {
+                        completion(nil, .generic)
+                        return
+                    }
+                    
+                    guard let latitude = json["latitude"] as? Double else {
+                        completion(nil, .generic)
+                        return
+                    }
+                    
+                    guard let longitude = json["longitude"] as? Double else {
+                        completion(nil, .generic)
+                        return
+                    }
+                    
+                    completion(self?.formatResults(data, postcode: postcode.capitalized.removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
+            }
+        }
+    }
+    
+    
     
     // MARK: - Utilities
     
     private func formatResults(_ items: [MKPlacemark]) -> [AtlasKitPlace] {
         return items.map({ AtlasKitPlace(streetAddress: $0.postalAddress!.street, city: $0.postalAddress!.city, postcode: $0.postalAddress!.postalCode, state: $0.postalAddress!.state, country: $0.postalAddress!.country, location: $0.coordinate) })
+    }
+    
+    
+    private func formatResults(_ items: [String], postcode: String, latitude: Double, longitude: Double) -> [AtlasKitPlace] {
+        return items.map({
+            let components = $0.split(separator: ",")
+            let address1 = components.indices.contains(0) ? components[0] : ""
+            let address2 = components.indices.contains(1) ? components[1] : ""
+            let address3 = components.indices.contains(2) ? components[2] : ""
+            let address4 = components.indices.contains(3) ? components[3] : ""
+            let address = ([address1, address2, address3, address4].filter({ !$0.isEmpty }).map({ String($0) }).joined(separator: ", "))
+            let city = components.indices.contains(5) ? components[5] : ""
+            let county = components.indices.contains(6) ? components[6] : ""
+            
+            return AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+        })
     }
         
         
@@ -162,6 +222,16 @@ public class AtlasKit {
     
     private func isNetworkAvailable() -> Bool {
         return NetworkReachabilityManager()!.isReachable
+    }
+    
+}
+
+
+
+extension String {
+    
+    var removingAllWhitespaces: Self {
+        filter { !$0.isWhitespace }
     }
     
 }
