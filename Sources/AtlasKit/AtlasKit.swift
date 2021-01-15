@@ -143,7 +143,12 @@ public class AtlasKit {
             "api-key": datasource.apiKey!
         ]
         
-        let request = sessionManager.request(URL(string: "https://api.getaddress.io/find/\(postcode)")!,
+        guard let searchTerm = postcode.trimmingCharacters(in: .whitespacesAndNewlines).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed), let url = URL(string: "https://api.getaddress.io/find/\(searchTerm)") else {
+            completion(nil, .generic)
+            return
+        }
+        
+        let request = sessionManager.request(url,
                                              method:  .get,
                                              parameters: parameters,
                                              encoding: URLEncoding.methodDependent,
@@ -174,7 +179,7 @@ public class AtlasKit {
                         return
                     }
                     
-                    completion(self?.formatResults(data, postcode: postcode.capitalized.removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
+                    completion(self?.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
             }
         }
     }
@@ -184,7 +189,7 @@ public class AtlasKit {
     // MARK: - Utilities
     
     private func formatResults(_ items: [MKPlacemark]) -> [AtlasKitPlace] {
-        return items.map({ AtlasKitPlace(streetAddress: $0.postalAddress!.street, city: $0.postalAddress!.city, postcode: $0.postalAddress!.postalCode, state: $0.postalAddress!.state, country: $0.postalAddress!.country, location: $0.coordinate) })
+        return items.map({ AtlasKitPlace(streetAddress: $0.postalAddress!.street, city: $0.postalAddress!.city, postcode: $0.postalAddress!.postalCode, state: $0.postalAddress!.state, country: $0.postalAddress!.country, location: $0.coordinate) }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
     }
     
     
@@ -195,17 +200,17 @@ public class AtlasKit {
             let address2 = components.indices.contains(1) ? components[1] : ""
             let address3 = components.indices.contains(2) ? components[2] : ""
             let address4 = components.indices.contains(3) ? components[3] : ""
-            let address = ([address1, address2, address3, address4].filter({ !$0.isEmpty }).map({ String($0) }).joined(separator: ", "))
+            let address = ([address1, address2, address3, address4].filter({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }).map({ String($0) }).joined(separator: ", "))
             let city = components.indices.contains(5) ? components[5] : ""
             let county = components.indices.contains(6) ? components[6] : ""
             
             return AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-        })
+        }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
     }
         
         
     private func formatResults(_ items: [[String: Any]]) -> [AtlasKitPlace] {
-        return items.map { item -> AtlasKitPlace? in
+        let addresses = items.map { item -> AtlasKitPlace? in
             
             guard let address = item["formatted_address"] as? String,
             let geometry = item["geometry"] as? [String: Any],
@@ -217,6 +222,8 @@ public class AtlasKit {
             
             return AtlasKitPlace(streetAddress: GoogleHelper.extractStreetAddress(from: address), city: GoogleHelper.extractCity(from: address), postcode: GoogleHelper.extractPostcode(from: address), state: GoogleHelper.extractState(from: address), country: GoogleHelper.extractCountry(from: address), location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         }.filter({ $0 != nil && ($0!.formattedAddress.first) != nil }) as! [AtlasKitPlace]
+        
+        return addresses.sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
     }
     
     
@@ -235,3 +242,4 @@ extension String {
     }
     
 }
+
