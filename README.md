@@ -8,7 +8,7 @@ pod 'AtlasKit'
 
 **Quick start**
 
-First start by creating a `AtlasKit` object with a datasource: Apple or Google. An AtlasKit instance with an apple datasource will try to use Apple Maps to get locations, whereas one with a Google datasource will take an API key when initializing and try to make use of the Google Places API.
+First start by creating a `AtlasKit` object with a datasource: Apple, Google or GetAddress.io. An AtlasKit instance with an apple datasource will try to use Apple Maps to get locations, whereas one with a Google or GetAddress datasource will take an API key when initializing and try to make use of the respective API ( Google Places or GetAddress).
 
 Once you have your instance setup you can begin making search requests, you can do this with or without a delay (for use with textfields that search as you type).
 

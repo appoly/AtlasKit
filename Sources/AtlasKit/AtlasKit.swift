@@ -196,13 +196,21 @@ public class AtlasKit {
     private func formatResults(_ items: [String], postcode: String, latitude: Double, longitude: Double) -> [AtlasKitPlace] {
         return items.map({
             let components = $0.split(separator: ",")
-            let address1 = components.indices.contains(0) ? components[0] : ""
-            let address2 = components.indices.contains(1) ? components[1] : ""
-            let address3 = components.indices.contains(2) ? components[2] : ""
-            let address4 = components.indices.contains(3) ? components[3] : ""
+            let address1 = components.indices.contains(0) ? components[0] : "" // The Lea
+            let address2 = components.indices.contains(1) ? components[1] : "" // Westhorpe
+            var address3 = components.indices.contains(2) ? components[2] : "" //
+            var address4 = components.indices.contains(3) ? components[3] : "" //
+            let locality = components.indices.contains(4) ? components[4] : "" // Willoughby on the Wolds
+            
+            if(address3.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+                address3 = locality
+            } else if(address4.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+                address4 = locality
+            }
+
             let address = ([address1, address2, address3, address4].filter({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }).map({ String($0) }).joined(separator: ", "))
-            let city = components.indices.contains(5) ? components[5] : ""
-            let county = components.indices.contains(6) ? components[6] : ""
+            let city = components.indices.contains(5) ? components[5] : "" // Loughborough
+            let county = components.indices.contains(6) ? components[6] : "" // Leicestershire
             
             return AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
