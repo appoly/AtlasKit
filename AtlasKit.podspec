@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "AtlasKit"
-  spec.version      = "0.1.7"
+  spec.version      = "0.1.8"
   spec.license      = "MIT"
   spec.summary      = "A swift library for quickly integrating a location search in your app."
   spec.homepage     = "https://github.com/appoly/AtlasKit"
@@ -13,8 +13,6 @@ Pod::Spec.new do |spec|
   spec.framework = "CoreLocation"
   spec.framework = "MapKit"
   spec.framework = "Contacts"
-  
-  spec.dependency 'Alamofire', '~> 4.9.0'
 
   spec.swift_versions = ["5.0", "5.1"]
   

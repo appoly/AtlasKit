@@ -15,6 +15,7 @@ import Foundation
 public enum AtlasKitError: Error {
     case generic
     case networkUnavailable
+    case apiKey
 }
 
 
@@ -23,8 +24,10 @@ extension AtlasKitError {
         switch self {
             case .generic:
                 return "Failed to lookup address"
-        case .networkUnavailable:
-                return "Please check your network connection and try again"
+            case .networkUnavailable:
+                    return "Please check your network connection and try again"
+            case .apiKey:
+                return "API key is invalid"
         }
     }
 }

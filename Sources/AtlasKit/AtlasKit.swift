@@ -11,7 +11,6 @@
 import Foundation
 import MapKit
 import Contacts
-import Alamofire
 
 
 
@@ -20,7 +19,6 @@ public class AtlasKit {
     // MARK: - Variables
     
     private let datasource: AtlasKitDataSource
-    private let sessionManager = SessionManager()
     private var searchTimer: Timer?
     private var search: MKLocalSearch?
     
@@ -54,10 +52,6 @@ public class AtlasKit {
     ///   - term: Search term
     ///   - completion: Code to be ran when a result is received (Places, Error)
     public func performSearch(_ term: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
-        guard isNetworkAvailable() else {
-            completion(nil, .networkUnavailable)
-            return
-        }
         switch datasource {
             case .apple:
                 performMapKitSearch(term, completion: completion)
@@ -103,85 +97,89 @@ public class AtlasKit {
     
     
     private func performGooglePlacesSearch(_ term: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
-        let parameters = [
-            "key": datasource.apiKey!,
-            "inputtype": "textquery",
-            "locationbias": "ipbias",
-            "fields": "formatted_address,name,geometry",
-            "input": term
-        ]
+        guard let apiKey = datasource.apiKey else {
+            completion(nil, .apiKey)
+            return
+        }
         
-        let request = sessionManager.request(URL(string: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json")!,
-                                             method:  .get,
-                                             parameters: parameters,
-                                             encoding: URLEncoding.methodDependent,
-                                             headers: nil)
+        let api: AtlasKitAPI = .googleSearch(term: term, apiKey: apiKey)
+        var request = URLRequest(url: api.url)
+        request.httpMethod = api.method
         
-        request.validate(statusCode: 200..<300).responseJSON { [weak self] (response) in
-            switch response.result {
-                case .failure(_):
-                    completion(nil, .generic)
-                case .success(let value):
-                    guard let json = value as? [String: Any] else {
-                        completion(nil, .generic)
-                        return
-                    }
-                    
-                    guard let data = json["candidates"] as? [[String: Any]] else {
-                        completion(nil, .generic)
-                        return
-                    }
-                    
-                    completion(self?.formatResults(data), nil)
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+                completion(nil, .generic)
+                return
             }
+            
+            guard error == nil, let data = data else {
+                completion(nil, .generic)
+                return
+            }
+            
+            guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                completion(nil, .generic)
+                return
+            }
+            
+            guard let data = json["candidates"] as? [[String: Any]] else {
+                completion(nil, .generic)
+                return
+            }
+            
+            completion(self?.formatResults(data), nil)
         }
     }
     
     
     private func performGetAddressSearch(_ postcode: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
-        let parameters = [
-            "api-key": datasource.apiKey!
-        ]
+        guard let apiKey = datasource.apiKey else {
+            completion(nil, .apiKey)
+            return
+        }
         
-        guard let searchTerm = postcode.trimmingCharacters(in: .whitespacesAndNewlines).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed), let url = URL(string: "https://api.getaddress.io/find/\(searchTerm)") else {
+        guard let searchTerm = postcode.trimmingCharacters(in: .whitespacesAndNewlines).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             completion(nil, .generic)
             return
         }
         
-        let request = sessionManager.request(url,
-                                             method:  .get,
-                                             parameters: parameters,
-                                             encoding: URLEncoding.methodDependent,
-                                             headers: nil)
+        let api: AtlasKitAPI = .getAddressSearch(term: searchTerm, apiKey: apiKey)
+        var request = URLRequest(url: api.url)
+        request.httpMethod = api.method
         
-        request.validate(statusCode: 200..<300).responseJSON { [weak self] (response) in
-            switch response.result {
-                case .failure(_):
-                    completion(nil, .generic)
-                case .success(let value):
-                    guard let json = value as? [String: Any] else {
-                        completion(nil, .generic)
-                        return
-                    }
-                    
-                    guard let data = json["addresses"] as? [String] else {
-                        completion(nil, .generic)
-                        return
-                    }
-                    
-                    guard let latitude = json["latitude"] as? Double else {
-                        completion(nil, .generic)
-                        return
-                    }
-                    
-                    guard let longitude = json["longitude"] as? Double else {
-                        completion(nil, .generic)
-                        return
-                    }
-                    
-                    completion(self?.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+                completion(nil, .generic)
+                return
             }
-        }
+            
+            guard error == nil, let data = data else {
+                completion(nil, .generic)
+                return
+            }
+            
+            guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                completion(nil, .generic)
+                return
+            }
+            
+            guard let data = json["addresses"] as? [String] else {
+                completion(nil, .generic)
+                return
+            }
+            
+            guard let latitude = json["latitude"] as? Double else {
+                completion(nil, .generic)
+                return
+            }
+            
+            guard let longitude = json["longitude"] as? Double else {
+                completion(nil, .generic)
+                return
+            }
+            
+            completion(self?.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
+        }.resume()
     }
     
     
@@ -229,14 +227,9 @@ public class AtlasKit {
             }
             
             return AtlasKitPlace(streetAddress: GoogleHelper.extractStreetAddress(from: address), city: GoogleHelper.extractCity(from: address), postcode: GoogleHelper.extractPostcode(from: address), state: GoogleHelper.extractState(from: address), country: GoogleHelper.extractCountry(from: address), location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-        }.filter({ $0 != nil && ($0!.formattedAddress.first) != nil }) as! [AtlasKitPlace]
+        }.filter({ $0 != nil && ($0!.formattedAddress.first) != nil }).map { $0! }
         
         return addresses.sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
-    }
-    
-    
-    private func isNetworkAvailable() -> Bool {
-        return NetworkReachabilityManager()!.isReachable
     }
     
 }

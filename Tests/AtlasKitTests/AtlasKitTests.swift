@@ -2,21 +2,9 @@
 
 
 import XCTest
-@testable import PhotographyKit
+@testable import AtlasKit
 
 
 
-final class PhotographyKitTests: XCTestCase {
-    
-    func testResetCamera() {
-    }
-    
-    
-    func testTakePhoto() {
-    }
-
-    static var allTests = [
-        ("testResetCamera", testResetCamera),
-        ("testTakePhoto", testTakePhoto),
-    ]
+final class AtlasKitTests: XCTestCase {
 }
