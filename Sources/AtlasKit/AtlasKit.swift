@@ -122,12 +122,12 @@ public class AtlasKit {
                 return
             }
             
-            guard let data = json["candidates"] as? [[String: Any]] else {
+            guard let items = json["candidates"] as? [[String: Any]] else {
                 completion(nil, .generic)
                 return
             }
             
-            completion(self?.formatResults(data), nil)
+            completion(self?.formatResults(items), nil)
         }
     }
     
@@ -163,7 +163,7 @@ public class AtlasKit {
                 return
             }
             
-            guard let data = json["addresses"] as? [String] else {
+            guard let items = json["addresses"] as? [String] else {
                 completion(nil, .generic)
                 return
             }
@@ -178,7 +178,7 @@ public class AtlasKit {
                 return
             }
             
-            completion(self?.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
+            completion(self?.formatResults(items, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
         }.resume()
     }
     
