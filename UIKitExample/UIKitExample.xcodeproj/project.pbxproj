@@ -13,6 +13,7 @@
 		6802F1AE27E4063B00069881 /* AtlasKitDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A827E4063B00069881 /* AtlasKitDatasource.swift */; };
 		6802F1AF27E4063B00069881 /* AtlasKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A927E4063B00069881 /* AtlasKit.swift */; };
 		6802F1B027E4063B00069881 /* AtlasKitAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1AA27E4063B00069881 /* AtlasKitAPI.swift */; };
+		6802F1C527E414EA00069881 /* AtlasKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1C427E414EA00069881 /* AtlasKitTests.swift */; };
 		68B1503C27E3D27800DD02F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1503B27E3D27800DD02F9 /* AppDelegate.swift */; };
 		68B1503E27E3D27800DD02F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1503D27E3D27800DD02F9 /* SceneDelegate.swift */; };
 		68B1504327E3D27800DD02F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68B1504127E3D27800DD02F9 /* Main.storyboard */; };
@@ -22,6 +23,16 @@
 		68B1505627E3E2FD00DD02F9 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1505527E3E2FD00DD02F9 /* LocationSearchViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6802F1C627E414EA00069881 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68B1503027E3D27800DD02F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68B1503727E3D27800DD02F9;
+			remoteInfo = UIKitExample;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		6802F1A527E4063B00069881 /* AtlasKitError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitError.swift; sourceTree = "<group>"; };
 		6802F1A627E4063B00069881 /* GoogleHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleHelper.swift; sourceTree = "<group>"; };
@@ -29,6 +40,8 @@
 		6802F1A827E4063B00069881 /* AtlasKitDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitDatasource.swift; sourceTree = "<group>"; };
 		6802F1A927E4063B00069881 /* AtlasKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKit.swift; sourceTree = "<group>"; };
 		6802F1AA27E4063B00069881 /* AtlasKitAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitAPI.swift; sourceTree = "<group>"; };
+		6802F1C227E414EA00069881 /* AtlasKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AtlasKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6802F1C427E414EA00069881 /* AtlasKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasKitTests.swift; sourceTree = "<group>"; };
 		68B1503827E3D27800DD02F9 /* UIKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B1503B27E3D27800DD02F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68B1503D27E3D27800DD02F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +54,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6802F1BF27E414EA00069881 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		68B1503527E3D27800DD02F9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,10 +85,19 @@
 			path = ../../Sources/AtlasKit;
 			sourceTree = "<group>";
 		};
+		6802F1C327E414EA00069881 /* AtlasKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				6802F1C427E414EA00069881 /* AtlasKitTests.swift */,
+			);
+			path = AtlasKitTests;
+			sourceTree = "<group>";
+		};
 		68B1502F27E3D27800DD02F9 = {
 			isa = PBXGroup;
 			children = (
 				68B1503A27E3D27800DD02F9 /* UIKitExample */,
+				6802F1C327E414EA00069881 /* AtlasKitTests */,
 				68B1503927E3D27800DD02F9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -77,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				68B1503827E3D27800DD02F9 /* UIKitExample.app */,
+				6802F1C227E414EA00069881 /* AtlasKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,6 +162,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6802F1C127E414EA00069881 /* AtlasKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6802F1C827E414EA00069881 /* Build configuration list for PBXNativeTarget "AtlasKitTests" */;
+			buildPhases = (
+				6802F1BE27E414EA00069881 /* Sources */,
+				6802F1BF27E414EA00069881 /* Frameworks */,
+				6802F1C027E414EA00069881 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6802F1C727E414EA00069881 /* PBXTargetDependency */,
+			);
+			name = AtlasKitTests;
+			productName = AtlasKitTests;
+			productReference = 6802F1C227E414EA00069881 /* AtlasKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		68B1503727E3D27800DD02F9 /* UIKitExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68B1504C27E3D27A00DD02F9 /* Build configuration list for PBXNativeTarget "UIKitExample" */;
@@ -161,6 +209,10 @@
 				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					6802F1C127E414EA00069881 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = 68B1503727E3D27800DD02F9;
+					};
 					68B1503727E3D27800DD02F9 = {
 						CreatedOnToolsVersion = 13.0;
 					};
@@ -182,11 +234,19 @@
 			projectRoot = "";
 			targets = (
 				68B1503727E3D27800DD02F9 /* UIKitExample */,
+				6802F1C127E414EA00069881 /* AtlasKitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6802F1C027E414EA00069881 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		68B1503627E3D27800DD02F9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,6 +260,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6802F1BE27E414EA00069881 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6802F1C527E414EA00069881 /* AtlasKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		68B1503427E3D27800DD02F9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +286,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6802F1C727E414EA00069881 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68B1503727E3D27800DD02F9 /* UIKitExample */;
+			targetProxy = 6802F1C627E414EA00069881 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		68B1504127E3D27800DD02F9 /* Main.storyboard */ = {
@@ -239,6 +315,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6802F1C927E414EA00069881 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X439R68L28;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.appoly.AtlasKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UIKitExample.app/UIKitExample";
+			};
+			name = Debug;
+		};
+		6802F1CA27E414EA00069881 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X439R68L28;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.appoly.AtlasKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UIKitExample.app/UIKitExample";
+			};
+			name = Release;
+		};
 		68B1504A27E3D27A00DD02F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -414,6 +536,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6802F1C827E414EA00069881 /* Build configuration list for PBXNativeTarget "AtlasKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6802F1C927E414EA00069881 /* Debug */,
+				6802F1CA27E414EA00069881 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		68B1503327E3D27800DD02F9 /* Build configuration list for PBXProject "UIKitExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
