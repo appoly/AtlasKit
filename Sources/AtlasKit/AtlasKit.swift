@@ -41,7 +41,7 @@ public class AtlasKit {
     ///   - completion: Code to be ran when a result is received (Places, Error)
     public func performSearchWithDelay(_ term: String, delay: TimeInterval, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
         searchTimer?.invalidate()
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
+        searchTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false, block: { [weak self] _ in
             self?.performSearch(term, completion: completion)
         })
     }
@@ -51,10 +51,11 @@ public class AtlasKit {
     public func performSearchWithDelay(_ term: String, delay: TimeInterval) async throws -> [AtlasKitPlace] {
         searchTimer?.invalidate()
         return try await withUnsafeThrowingContinuation { continuation in
-            searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
-                
-                self?.performSearch(term) { continuation.resume(with: $0) }
-            })
+            DispatchQueue.main.async { [weak self] in
+                self?.searchTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false, block: { [weak self] _ in
+                    self?.performSearch(term) { continuation.resume(with: $0) }
+                })
+            }
         }
     }
     
