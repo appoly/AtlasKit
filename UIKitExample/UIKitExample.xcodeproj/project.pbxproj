@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6802F1AB27E4063B00069881 /* AtlasKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A527E4063B00069881 /* AtlasKitError.swift */; };
+		6802F1AC27E4063B00069881 /* GoogleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A627E4063B00069881 /* GoogleHelper.swift */; };
+		6802F1AD27E4063B00069881 /* AtlasKitPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A727E4063B00069881 /* AtlasKitPlace.swift */; };
+		6802F1AE27E4063B00069881 /* AtlasKitDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A827E4063B00069881 /* AtlasKitDatasource.swift */; };
+		6802F1AF27E4063B00069881 /* AtlasKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1A927E4063B00069881 /* AtlasKit.swift */; };
+		6802F1B027E4063B00069881 /* AtlasKitAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6802F1AA27E4063B00069881 /* AtlasKitAPI.swift */; };
 		68B1503C27E3D27800DD02F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1503B27E3D27800DD02F9 /* AppDelegate.swift */; };
 		68B1503E27E3D27800DD02F9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1503D27E3D27800DD02F9 /* SceneDelegate.swift */; };
 		68B1504327E3D27800DD02F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68B1504127E3D27800DD02F9 /* Main.storyboard */; };
@@ -14,10 +20,15 @@
 		68B1504827E3D27A00DD02F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68B1504627E3D27A00DD02F9 /* LaunchScreen.storyboard */; };
 		68B1505427E3E2D700DD02F9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1505327E3E2D700DD02F9 /* TabBarController.swift */; };
 		68B1505627E3E2FD00DD02F9 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B1505527E3E2FD00DD02F9 /* LocationSearchViewController.swift */; };
-		68B1505927E3E33100DD02F9 /* AtlasKit in Frameworks */ = {isa = PBXBuildFile; productRef = 68B1505827E3E33100DD02F9 /* AtlasKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6802F1A527E4063B00069881 /* AtlasKitError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitError.swift; sourceTree = "<group>"; };
+		6802F1A627E4063B00069881 /* GoogleHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleHelper.swift; sourceTree = "<group>"; };
+		6802F1A727E4063B00069881 /* AtlasKitPlace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitPlace.swift; sourceTree = "<group>"; };
+		6802F1A827E4063B00069881 /* AtlasKitDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitDatasource.swift; sourceTree = "<group>"; };
+		6802F1A927E4063B00069881 /* AtlasKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKit.swift; sourceTree = "<group>"; };
+		6802F1AA27E4063B00069881 /* AtlasKitAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtlasKitAPI.swift; sourceTree = "<group>"; };
 		68B1503827E3D27800DD02F9 /* UIKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68B1503B27E3D27800DD02F9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68B1503D27E3D27800DD02F9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,13 +45,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68B1505927E3E33100DD02F9 /* AtlasKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6802F1A427E4063B00069881 /* AtlasKit */ = {
+			isa = PBXGroup;
+			children = (
+				6802F1A527E4063B00069881 /* AtlasKitError.swift */,
+				6802F1A627E4063B00069881 /* GoogleHelper.swift */,
+				6802F1A727E4063B00069881 /* AtlasKitPlace.swift */,
+				6802F1A827E4063B00069881 /* AtlasKitDatasource.swift */,
+				6802F1A927E4063B00069881 /* AtlasKit.swift */,
+				6802F1AA27E4063B00069881 /* AtlasKitAPI.swift */,
+			);
+			name = AtlasKit;
+			path = ../../Sources/AtlasKit;
+			sourceTree = "<group>";
+		};
 		68B1502F27E3D27800DD02F9 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +84,7 @@
 		68B1503A27E3D27800DD02F9 /* UIKitExample */ = {
 			isa = PBXGroup;
 			children = (
+				6802F1A427E4063B00069881 /* AtlasKit */,
 				68B1504F27E3D3D100DD02F9 /* App */,
 				68B1505027E3D3D900DD02F9 /* Resources */,
 				68B1505127E3D3E300DD02F9 /* Views */,
@@ -121,7 +146,6 @@
 			);
 			name = UIKitExample;
 			packageProductDependencies = (
-				68B1505827E3E33100DD02F9 /* AtlasKit */,
 			);
 			productName = UIKitExample;
 			productReference = 68B1503827E3D27800DD02F9 /* UIKitExample.app */;
@@ -152,7 +176,6 @@
 			);
 			mainGroup = 68B1502F27E3D27800DD02F9;
 			packageReferences = (
-				68B1505727E3E33100DD02F9 /* XCRemoteSwiftPackageReference "AtlasKit" */,
 			);
 			productRefGroup = 68B1503927E3D27800DD02F9 /* Products */;
 			projectDirPath = "";
@@ -183,8 +206,14 @@
 			files = (
 				68B1505427E3E2D700DD02F9 /* TabBarController.swift in Sources */,
 				68B1503C27E3D27800DD02F9 /* AppDelegate.swift in Sources */,
+				6802F1AD27E4063B00069881 /* AtlasKitPlace.swift in Sources */,
+				6802F1AE27E4063B00069881 /* AtlasKitDatasource.swift in Sources */,
+				6802F1AC27E4063B00069881 /* GoogleHelper.swift in Sources */,
+				6802F1AB27E4063B00069881 /* AtlasKitError.swift in Sources */,
 				68B1503E27E3D27800DD02F9 /* SceneDelegate.swift in Sources */,
+				6802F1AF27E4063B00069881 /* AtlasKit.swift in Sources */,
 				68B1505627E3E2FD00DD02F9 /* LocationSearchViewController.swift in Sources */,
+				6802F1B027E4063B00069881 /* AtlasKitAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,25 +433,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		68B1505727E3E33100DD02F9 /* XCRemoteSwiftPackageReference "AtlasKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/appoly/AtlasKit";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		68B1505827E3E33100DD02F9 /* AtlasKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 68B1505727E3E33100DD02F9 /* XCRemoteSwiftPackageReference "AtlasKit" */;
-			productName = AtlasKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 68B1503027E3D27800DD02F9 /* Project object */;
 }
