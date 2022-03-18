@@ -39,11 +39,31 @@ public class AtlasKit {
     ///   - term: Search term
     ///   - delay: How long you wish to delay the serach for
     ///   - completion: Code to be ran when a result is received (Places, Error)
-    public func performSearchWithDelay(_ term: String, delay: TimeInterval, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
+    public func performSearchWithDelay(_ term: String, delay: TimeInterval, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
         searchTimer?.invalidate()
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] timer in
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
             self?.performSearch(term, completion: completion)
         })
+    }
+    
+    
+    @available(iOS 15.0.0, *)
+    public func performSearchWithDelay(_ term: String, delay: TimeInterval) async throws -> [AtlasKitPlace] {
+        searchTimer?.invalidate()
+        return try await withUnsafeThrowingContinuation { continuation in
+            searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
+                
+                self?.performSearch(term) { continuation.resume(with: $0) }
+            })
+        }
+    }
+    
+    
+    @available(iOS 15.0.0, *)
+    public func performSearch(_ term: String) async throws -> [AtlasKitPlace] {
+        return try await withUnsafeThrowingContinuation { continuation in
+            performSearch(term, completion: { continuation.resume(with: $0) })
+        }
     }
     
     
@@ -51,7 +71,7 @@ public class AtlasKit {
     /// - Parameters:
     ///   - term: Search term
     ///   - completion: Code to be ran when a result is received (Places, Error)
-    public func performSearch(_ term: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
+    public func performSearch(_ term: String, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
         switch datasource {
             case .apple:
                 performMapKitSearch(term, completion: completion)
@@ -66,7 +86,7 @@ public class AtlasKit {
     
     // MARK: - Lookup Functions
     
-    private func performMapKitSearch(_ term: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
+    private func performMapKitSearch(_ term: String, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
         search?.cancel()
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = term
@@ -74,17 +94,17 @@ public class AtlasKit {
         search = MKLocalSearch(request: request)
         search?.start(completionHandler: { (response, error) in
             DispatchQueue.main.async { [weak self] in
-                guard error == nil else {
-                    completion(nil, .generic)
+                guard error == nil, let self = self else {
+                    completion(.failure(.generic))
                     return
                 }
                 
                 guard let items = response?.mapItems.filter({ $0.placemark.postalAddress != nil }).map({ $0.placemark }) else {
-                    completion([], nil)
+                    completion(.success([]))
                     return
                 }
                 
-                completion(self?.formatResults(items) ?? [], nil)
+                completion(.success(self.formatResults(items)))
             }
         })
     }
@@ -96,9 +116,9 @@ public class AtlasKit {
     }
     
     
-    private func performGooglePlacesSearch(_ term: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
+    private func performGooglePlacesSearch(_ term: String, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
         guard let apiKey = datasource.apiKey else {
-            completion(nil, .apiKey)
+            completion(.failure(.apiKey))
             return
         }
         
@@ -108,38 +128,38 @@ public class AtlasKit {
         
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
-            guard error == nil, let data = data else {
-                completion(nil, .generic)
+            guard error == nil, let data = data, let self = self else {
+                completion(.failure(.generic))
                 return
             }
             
             guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
             guard let data = json["candidates"] as? [[String: Any]] else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
-            completion(self?.formatResults(data), nil)
-        }
+            completion(.success(self.formatResults(data)))
+        }.resume()
     }
     
     
-    private func performGetAddressSearch(_ postcode: String, completion: @escaping ([AtlasKitPlace]?, AtlasKitError?) -> Void) {
+    private func performGetAddressSearch(_ postcode: String, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
         guard let apiKey = datasource.apiKey else {
-            completion(nil, .apiKey)
+            completion(.failure(.apiKey))
             return
         }
         
         guard let searchTerm = postcode.trimmingCharacters(in: .whitespacesAndNewlines).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
-            completion(nil, .generic)
+            completion(.failure(.generic))
             return
         }
         
@@ -149,36 +169,36 @@ public class AtlasKit {
         
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
-            guard error == nil, let data = data else {
-                completion(nil, .generic)
+            guard error == nil, let data = data, let self = self else {
+                completion(.failure(.generic))
                 return
             }
             
             guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
             guard let data = json["addresses"] as? [String] else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
             guard let latitude = json["latitude"] as? Double else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
             guard let longitude = json["longitude"] as? Double else {
-                completion(nil, .generic)
+                completion(.failure(.generic))
                 return
             }
             
-            completion(self?.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude), nil)
+            completion(.success(self.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude)))
         }.resume()
     }
     
@@ -194,11 +214,11 @@ public class AtlasKit {
     private func formatResults(_ items: [String], postcode: String, latitude: Double, longitude: Double) -> [AtlasKitPlace] {
         return items.map({
             let components = $0.split(separator: ",")
-            let address1 = components.indices.contains(0) ? components[0] : "" // The Lea
-            let address2 = components.indices.contains(1) ? components[1] : "" // Westhorpe
-            var address3 = components.indices.contains(2) ? components[2] : "" //
-            var address4 = components.indices.contains(3) ? components[3] : "" //
-            let locality = components.indices.contains(4) ? components[4] : "" // Willoughby on the Wolds
+            let address1 = components.indices.contains(0) ? components[0] : ""
+            let address2 = components.indices.contains(1) ? components[1] : ""
+            var address3 = components.indices.contains(2) ? components[2] : ""
+            var address4 = components.indices.contains(3) ? components[3] : ""
+            let locality = components.indices.contains(4) ? components[4] : ""
             
             if(address3.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
                 address3 = locality
@@ -207,8 +227,8 @@ public class AtlasKit {
             }
 
             let address = ([address1, address2, address3, address4].filter({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }).map({ String($0) }).joined(separator: ", "))
-            let city = components.indices.contains(5) ? components[5] : "" // Loughborough
-            let county = components.indices.contains(6) ? components[6] : "" // Leicestershire
+            let city = components.indices.contains(5) ? components[5] : ""
+            let county = components.indices.contains(6) ? components[6] : ""
             
             return AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
         }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })

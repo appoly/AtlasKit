@@ -87,14 +87,16 @@ class LocationSearchViewController: UIViewController {
         }
         
         isSearching = true
-        atlas.performSearchWithDelay(text, delay: 2) { results, error in
+        atlas.performSearchWithDelay(text, delay: 2) { result in
             DispatchQueue.main.async { [weak self] in
-                if let error = error {
-                    self?.showError(error)
+                switch result {
+                    case .success(let values):
+                        self?.values = values
+                        self?.pickerView.reloadAllComponents()
+                        self?.isSearching = false
+                    case .failure(let error):
+                        self?.showError(error)
                 }
-                self?.values = results ?? []
-                self?.pickerView.reloadAllComponents()
-                self?.isSearching = false
             }
         }
     }
@@ -108,14 +110,16 @@ class LocationSearchViewController: UIViewController {
         }
         
         isSearching = true
-        atlas.performSearch(text) { results, error in
+        atlas.performSearch(text) { result in
             DispatchQueue.main.async { [weak self] in
-                if let error = error {
-                    self?.showError(error)
+                switch result {
+                    case .success(let values):
+                        self?.values = values
+                        self?.pickerView.reloadAllComponents()
+                        self?.isSearching = false
+                    case .failure(let error):
+                        self?.showError(error)
                 }
-                self?.values = results ?? []
-                self?.pickerView.reloadAllComponents()
-                self?.isSearching = false
             }
         }
     }
