@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SVn-Oi-YwS">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="bCf-G7-CSw">
+            <objects>
+                <tabBarController id="SVn-Oi-YwS" customClass="TabBarController" customModule="UIKitExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KX2-cL-DYn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ymO-4A-OsZ" kind="relationship" relationship="viewControllers" id="dGY-VW-269"/>
+                        <segue destination="8l4-NF-S8s" kind="relationship" relationship="viewControllers" id="QfR-sR-Wsl"/>
+                        <segue destination="TfB-Su-ZY7" kind="relationship" relationship="viewControllers" id="pfh-ji-KC3"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="loQ-eF-SnP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1006" y="-190"/>
+        </scene>
+        <!--Apple Maps-->
+        <scene sceneID="fgM-8j-8Uv">
+            <objects>
+                <viewController id="ymO-4A-OsZ" customClass="LocationSearchViewController" customModule="UIKitExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KdP-sd-nzK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="kc6-6O-Caf">
+                                <rect key="frame" x="197" y="267" width="20" height="20"/>
+                                <color key="color" systemColor="linkColor"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6t7-ka-SLz">
+                                <rect key="frame" x="0.0" y="44" width="414" height="361"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Jxw-fZ-K0A">
+                                        <rect key="frame" x="20" y="20" width="374" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autosearch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vam-Hg-Bmn">
+                                                <rect key="frame" x="0.0" y="0.0" width="305" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="d1p-Vw-Bc1">
+                                                <rect key="frame" x="325" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="autoSearchSwitch_ValueChanged:" destination="ymO-4A-OsZ" eventType="valueChanged" id="snK-71-XaM"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="J6I-Jf-RUY">
+                                        <rect key="frame" x="20" y="71" width="374" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Postcode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wky-si-L2h">
+                                                <rect key="frame" x="0.0" y="0.0" width="286" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="textField_EditingDidChange:" destination="ymO-4A-OsZ" eventType="editingChanged" id="DEk-S5-k4r"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i0e-SH-Ehz">
+                                                <rect key="frame" x="306" y="0.0" width="68" height="34"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="34" id="RwR-8b-nlo"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Search">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="17"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="searchButtonTouchUpInside:" destination="ymO-4A-OsZ" eventType="touchUpInside" id="06x-fX-ZCs"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTr-Sj-Cs6">
+                                        <rect key="frame" x="20" y="125" width="374" height="216"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="ymO-4A-OsZ" id="Qgp-nG-Tqy"/>
+                                            <outlet property="delegate" destination="ymO-4A-OsZ" id="AqK-l7-OrP"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="20" left="20" bottom="20" right="20"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="J90-bE-bXY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6t7-ka-SLz" firstAttribute="top" secondItem="J90-bE-bXY" secondAttribute="top" id="9pl-Qa-1qJ"/>
+                            <constraint firstItem="kc6-6O-Caf" firstAttribute="centerY" secondItem="JTr-Sj-Cs6" secondAttribute="centerY" id="Cna-fl-iRH"/>
+                            <constraint firstItem="kc6-6O-Caf" firstAttribute="centerX" secondItem="JTr-Sj-Cs6" secondAttribute="centerX" id="FsK-Bh-GVr"/>
+                            <constraint firstItem="J90-bE-bXY" firstAttribute="trailing" secondItem="6t7-ka-SLz" secondAttribute="trailing" id="Y0V-fE-mvO"/>
+                            <constraint firstItem="6t7-ka-SLz" firstAttribute="leading" secondItem="J90-bE-bXY" secondAttribute="leading" id="dvC-vt-s5M"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Apple Maps" selectedImage="applelogo" catalog="system" id="6uO-BJ-Kz0"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="kc6-6O-Caf" id="nuY-ZP-dOo"/>
+                        <outlet property="pickerView" destination="JTr-Sj-Cs6" id="BeO-ah-xVO"/>
+                        <outlet property="searchButton" destination="i0e-SH-Ehz" id="1wq-DN-axd"/>
+                        <outlet property="textField" destination="wky-si-L2h" id="AMR-QJ-ac9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MRK-pf-oIF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-71" y="-779"/>
+        </scene>
+        <!--Google Places-->
+        <scene sceneID="i4m-dA-gVo">
+            <objects>
+                <viewController id="8l4-NF-S8s" customClass="LocationSearchViewController" customModule="UIKitExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tkN-Pu-jMm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="5aM-OW-xxf">
+                                <rect key="frame" x="197" y="267" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="444-kX-xsX">
+                                <rect key="frame" x="0.0" y="44" width="414" height="361"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WN8-tC-k3h">
+                                        <rect key="frame" x="20" y="20" width="374" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autosearch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLt-GZ-88N">
+                                                <rect key="frame" x="0.0" y="0.0" width="305" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Nzh-FZ-KwR">
+                                                <rect key="frame" x="325" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="autoSearchSwitch_ValueChanged:" destination="8l4-NF-S8s" eventType="valueChanged" id="ALw-Li-oJR"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="u9F-al-hGs">
+                                        <rect key="frame" x="20" y="71" width="374" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Postcode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E6V-ki-CHe">
+                                                <rect key="frame" x="0.0" y="0.0" width="286" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="textField_EditingDidChange:" destination="8l4-NF-S8s" eventType="editingChanged" id="cKk-KM-4NK"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bxo-Ko-9bP">
+                                                <rect key="frame" x="306" y="0.0" width="68" height="34"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="34" id="tMr-d5-ftk"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Search">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="17"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="searchButtonTouchUpInside:" destination="8l4-NF-S8s" eventType="touchUpInside" id="lNK-oR-wRg"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgI-ba-xmB">
+                                        <rect key="frame" x="20" y="125" width="374" height="216"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="8l4-NF-S8s" id="P1p-OL-A9D"/>
+                                            <outlet property="delegate" destination="8l4-NF-S8s" id="Kia-jB-Sgo"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="20" left="20" bottom="20" right="20"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5bP-Sr-3vp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5bP-Sr-3vp" firstAttribute="trailing" secondItem="444-kX-xsX" secondAttribute="trailing" id="44H-p0-YBN"/>
+                            <constraint firstItem="5aM-OW-xxf" firstAttribute="centerY" secondItem="tgI-ba-xmB" secondAttribute="centerY" id="Xyd-Ni-yYx"/>
+                            <constraint firstItem="444-kX-xsX" firstAttribute="leading" secondItem="5bP-Sr-3vp" secondAttribute="leading" id="fVX-NU-wW1"/>
+                            <constraint firstItem="444-kX-xsX" firstAttribute="top" secondItem="5bP-Sr-3vp" secondAttribute="top" id="hlr-tV-WWN"/>
+                            <constraint firstItem="5aM-OW-xxf" firstAttribute="centerX" secondItem="tgI-ba-xmB" secondAttribute="centerX" id="k00-Vg-PGZ"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Google Places" selectedImage="Google" id="YVw-Mo-RUV"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="5aM-OW-xxf" id="tHv-o9-sOt"/>
+                        <outlet property="pickerView" destination="tgI-ba-xmB" id="y2T-h2-a3r"/>
+                        <outlet property="searchButton" destination="Bxo-Ko-9bP" id="Gsy-fz-oIu"/>
+                        <outlet property="textField" destination="E6V-ki-CHe" id="jWW-ha-fT7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bGk-b8-tVS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-71" y="-81"/>
+        </scene>
+        <!--Get Address-->
+        <scene sceneID="jTF-dD-Rd7">
+            <objects>
+                <viewController id="TfB-Su-ZY7" customClass="LocationSearchViewController" customModule="UIKitExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nec-LJ-aKd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Mtq-uT-IXm">
+                                <rect key="frame" x="197" y="267" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="smG-V0-GQn">
+                                <rect key="frame" x="0.0" y="44" width="414" height="361"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vpM-Km-QFD">
+                                        <rect key="frame" x="20" y="20" width="374" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autosearch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSv-hb-kbE">
+                                                <rect key="frame" x="0.0" y="0.0" width="305" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-zI-nQk">
+                                                <rect key="frame" x="325" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="autoSearchSwitch_ValueChanged:" destination="TfB-Su-ZY7" eventType="valueChanged" id="v00-ON-tsN"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WRi-hj-VjJ">
+                                        <rect key="frame" x="20" y="71" width="374" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Postcode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ahk-bV-jCs">
+                                                <rect key="frame" x="0.0" y="0.0" width="286" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="textField_EditingDidChange:" destination="TfB-Su-ZY7" eventType="editingChanged" id="V8D-QQ-lyu"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sWO-7D-4xp">
+                                                <rect key="frame" x="306" y="0.0" width="68" height="34"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="34" id="piS-ct-s7O"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Search">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="17"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="searchButtonTouchUpInside:" destination="TfB-Su-ZY7" eventType="touchUpInside" id="4lO-1T-fy8"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mtE-Sb-tQI">
+                                        <rect key="frame" x="20" y="125" width="374" height="216"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="TfB-Su-ZY7" id="0SJ-zL-5de"/>
+                                            <outlet property="delegate" destination="TfB-Su-ZY7" id="xyr-Fn-5CR"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="20" left="20" bottom="20" right="20"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="had-mM-dhQ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Mtq-uT-IXm" firstAttribute="centerX" secondItem="mtE-Sb-tQI" secondAttribute="centerX" id="7dQ-Ck-hoW"/>
+                            <constraint firstItem="smG-V0-GQn" firstAttribute="top" secondItem="had-mM-dhQ" secondAttribute="top" id="F9z-4y-pqB"/>
+                            <constraint firstItem="smG-V0-GQn" firstAttribute="leading" secondItem="had-mM-dhQ" secondAttribute="leading" id="Kjg-1U-m6e"/>
+                            <constraint firstItem="had-mM-dhQ" firstAttribute="trailing" secondItem="smG-V0-GQn" secondAttribute="trailing" id="W2r-84-hD0"/>
+                            <constraint firstItem="Mtq-uT-IXm" firstAttribute="centerY" secondItem="mtE-Sb-tQI" secondAttribute="centerY" id="ppm-CQ-PTX"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Get Address" selectedImage="map" catalog="system" id="Wp1-Hv-LVA"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Mtq-uT-IXm" id="09s-M6-hHh"/>
+                        <outlet property="pickerView" destination="mtE-Sb-tQI" id="Ysf-hf-ko7"/>
+                        <outlet property="searchButton" destination="sWO-7D-4xp" id="cqt-wC-RNS"/>
+                        <outlet property="textField" destination="ahk-bV-jCs" id="1ax-FJ-RBT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="veD-VF-kIY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-71" y="636"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Google" width="24" height="24"/>
+        <image name="applelogo" catalog="system" width="103" height="128"/>
+        <image name="map" catalog="system" width="128" height="110"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
