@@ -16,6 +16,7 @@ public enum AtlasKitDataSource {
     case google(key: String)
     case apple
     case getAddress(key: String)
+    case custom(url: String)
 }
 
 
@@ -27,6 +28,8 @@ extension AtlasKitDataSource {
             case .getAddress(let key):
                 return key
             case .apple:
+                return nil
+            case .custom:
                 return nil
         }
     }

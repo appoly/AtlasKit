@@ -80,6 +80,8 @@ public class AtlasKit {
                 performGooglePlacesSearch(term, completion: completion)
             case .getAddress:
                 performGetAddressSearch(term, completion: completion)
+            case .custom(let url):
+                performCustomAddressSearch(term, url: url, completion: completion)
         }
     }
     
@@ -165,6 +167,52 @@ public class AtlasKit {
         }
         
         let api: AtlasKitAPI = .getAddressSearch(term: searchTerm, apiKey: apiKey)
+        var request = URLRequest(url: api.url)
+        request.httpMethod = api.method
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let response = response as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
+                completion(.failure(.generic))
+                return
+            }
+            
+            guard error == nil, let data = data, let self = self else {
+                completion(.failure(.generic))
+                return
+            }
+            
+            guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+                completion(.failure(.generic))
+                return
+            }
+            
+            guard let data = json["addresses"] as? [String] else {
+                completion(.failure(.generic))
+                return
+            }
+            
+            guard let latitude = json["latitude"] as? Double else {
+                completion(.failure(.generic))
+                return
+            }
+            
+            guard let longitude = json["longitude"] as? Double else {
+                completion(.failure(.generic))
+                return
+            }
+            
+            completion(.success(self.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude)))
+        }.resume()
+    }
+    
+    private func performCustomAddressSearch(_ postcode: String, url: String, completion: @escaping (Result<[AtlasKitPlace], AtlasKitError>) -> Void) {
+        
+        guard let searchTerm = postcode.trimmingCharacters(in: .whitespacesAndNewlines).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            completion(.failure(.generic))
+            return
+        }
+        
+        let api: AtlasKitAPI = .custom(url: url, term: searchTerm)
         var request = URLRequest(url: api.url)
         request.httpMethod = api.method
         
