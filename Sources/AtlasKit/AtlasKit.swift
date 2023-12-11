@@ -232,22 +232,12 @@ public class AtlasKit {
                 return
             }
             
-            guard let data = json["addresses"] as? [String] else {
+            guard let suggestions = json["suggestions"] as? [[String: String]] else {
                 completion(.failure(.generic))
                 return
             }
             
-            guard let latitude = json["latitude"] as? Double else {
-                completion(.failure(.generic))
-                return
-            }
-            
-            guard let longitude = json["longitude"] as? Double else {
-                completion(.failure(.generic))
-                return
-            }
-            
-            completion(.success(self.formatResults(data, postcode: postcode.uppercased().removingAllWhitespaces, latitude: latitude, longitude: longitude)))
+            completion(.success(self.formatResults(suggestions, postcode: postcode.uppercased().removingAllWhitespaces)))
         }.resume()
     }
     
@@ -260,7 +250,7 @@ public class AtlasKit {
     }
     
     
-    private func formatResults(_ items: [String], postcode: String, latitude: Double, longitude: Double) -> [AtlasKitPlace] {
+    private func formatResults(_ items: [String], postcode: String, latitude: Double?, longitude: Double?) -> [AtlasKitPlace] {
         return items.map({
             let components = $0.split(separator: ",")
             let address1 = components.indices.contains(0) ? components[0] : ""
@@ -279,7 +269,33 @@ public class AtlasKit {
             let city = components.indices.contains(5) ? components[5] : ""
             let county = components.indices.contains(6) ? components[6] : ""
             
-            return AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+            let location = [latitude, longitude].contains(nil) ? nil : CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
+            return AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: location)
+        }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
+    }
+    
+    private func formatResults(_ items: [[String: String]], postcode: String) -> [AtlasKitPlace] {
+        return items.map({
+            let address = $0["address"] ?? ""
+            let components = address.split(separator: ",")
+            let address1 = components.indices.contains(0) ? components[0] : ""
+            let address2 = components.indices.contains(1) ? components[1] : ""
+            var address3 = components.indices.contains(2) ? components[2] : ""
+            var address4 = components.indices.contains(3) ? components[3] : ""
+            let locality = components.indices.contains(4) ? components[4] : ""
+            
+            if(address3.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+                address3 = locality
+            } else if(address4.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+                address4 = locality
+            }
+            
+            let city = components.indices.contains(5) ? components[5] : ""
+            let county = components.indices.contains(6) ? components[6] : ""
+            
+            let place = AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: nil)
+            place.getAddressId = $0["id"]
+            return place
         }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
     }
         

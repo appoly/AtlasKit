@@ -17,6 +17,7 @@ public class AtlasKitPlace {
     
     // MARK: - Variables
     
+    public var getAddressId: String?
     public var streetAddress: String?
     public var city: String?
     public var postcode: String?
