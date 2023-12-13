@@ -284,7 +284,13 @@ public class AtlasKit {
             var address4 = components.indices.contains(3) ? components[3] : ""
             let locality = components.indices.contains(4) ? components[4] : ""
             
-            let streetAddtress = ([address1, address2, address3].filter({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }).map({ String($0) }).joined(separator: ", "))
+            if(address3.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+                address3 = locality
+            } else if(address4.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) {
+                address4 = locality
+            }
+            
+            let streetAddtress = ([address1, address2, address3, address4].filter({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }).map({ String($0) }).joined(separator: ", "))
             let city = components.indices.contains(5) ? components[5] : ""
             let county = components.indices.contains(6) ? components[6] : ""
             
