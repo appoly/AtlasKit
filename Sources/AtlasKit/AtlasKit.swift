@@ -290,10 +290,11 @@ public class AtlasKit {
                 address4 = locality
             }
             
+            let streetAddtress = ([address1, address2, address3, address4].filter({ !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }).map({ String($0) }).joined(separator: ", "))
             let city = components.indices.contains(5) ? components[5] : ""
             let county = components.indices.contains(6) ? components[6] : ""
             
-            let place = AtlasKitPlace(streetAddress: address, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: nil)
+            let place = AtlasKitPlace(streetAddress: streetAddtress, city: String(city), postcode: postcode, state: String(county), country: "United Kingdom", location: nil)
             place.getAddressId = $0["id"]
             return place
         }).sorted(by: { $0.formattedAddress.localizedStandardCompare($1.formattedAddress) == .orderedAscending })
